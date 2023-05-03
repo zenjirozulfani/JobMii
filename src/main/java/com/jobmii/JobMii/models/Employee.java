@@ -3,6 +3,7 @@ package com.jobmii.JobMii.models;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +34,8 @@ public class Employee {
 
 	private String name;
 
+	private String email;
+
 	private String phone;
 
 	private String cv;
@@ -39,6 +43,10 @@ public class Employee {
 	private String status;
 
 	private String Description;
+
+	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "position_id", nullable = true)

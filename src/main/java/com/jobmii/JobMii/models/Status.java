@@ -1,5 +1,7 @@
 package com.jobmii.JobMii.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "status_id")
+@Table(name = "tb_status")
 public class Status {
 
 	@Id
@@ -26,13 +28,11 @@ public class Status {
 	@Column(name = "status_id")
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "apply_employee_id")
-	private Apply_Employee apply_Employee;
+	private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "history_id")
-	private History history;
+	@OneToMany(mappedBy = "status")
+	private List<Apply_Employee> apply_Employee;
 
-	private String status;
+	@OneToMany(mappedBy = "status")
+	private List<History> history;
 }

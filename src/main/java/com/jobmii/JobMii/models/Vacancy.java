@@ -49,6 +49,8 @@ public class Vacancy {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate end_date;
 
+	private boolean isActive;
+
 	@OneToMany(mappedBy = "vacancy")
 	Set<Position_Vacancy> positionVacancy;
 

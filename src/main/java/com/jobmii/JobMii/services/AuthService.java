@@ -67,7 +67,7 @@ public class AuthService {
 				authorities);
 	}
 
-	public User createClient(ClientRequest clientRequest) {
+	public void createClient(ClientRequest clientRequest) {
 		Employee employee = modelMapper.map(clientRequest, Employee.class);
 		User user = modelMapper.map(clientRequest, User.class);
 
@@ -81,10 +81,10 @@ public class AuthService {
 
 		employee.setUser(user);
 		user.setEmployee(employee);
-		return userRepository.save(user);
+		userRepository.save(user);
 	}
 
-	public User createEmployee(EmployeeRequest employeeRequest) {
+	public void createEmployee(EmployeeRequest employeeRequest) {
 		Employee employee = modelMapper.map(employeeRequest, Employee.class);
 		User user = modelMapper.map(employeeRequest, User.class);
 
@@ -98,6 +98,6 @@ public class AuthService {
 
 		employee.setUser(user);
 		user.setEmployee(employee);
-		return userRepository.save(user);
+		userRepository.save(user);
 	}
 }

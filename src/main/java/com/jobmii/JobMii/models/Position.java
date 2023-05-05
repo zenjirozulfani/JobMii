@@ -2,6 +2,7 @@ package com.jobmii.JobMii.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Position {
 	@Column(name = "name_position", nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "position")
+	@OneToMany(mappedBy = "position", fetch = FetchType.EAGER )
 	Set<Position_Vacancy> positionVacancy;
 
 }

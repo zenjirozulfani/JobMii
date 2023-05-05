@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +52,7 @@ public class Vacancy {
 
 	private boolean isActive;
 
-	@OneToMany(mappedBy = "vacancy")
+	@OneToMany(mappedBy = "vacancy", fetch = FetchType.EAGER)
 	Set<Position_Vacancy> positionVacancy;
 
 	@ManyToOne

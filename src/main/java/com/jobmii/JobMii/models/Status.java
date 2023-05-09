@@ -30,9 +30,9 @@ public class Status {
 
 	private String name;
 
-	@OneToMany(mappedBy = "status")
-	private List<Apply_Employee> apply_Employee;
+	// @OneToMany(mappedBy = "status_id")
+	// private List<Apply_Employee> apply_Employee;
 
-	@OneToMany(mappedBy = "status")
-	private List<History> history;
+	// @OneToMany(mappedBy = "status_id")
+	// private List<History> history;
 }

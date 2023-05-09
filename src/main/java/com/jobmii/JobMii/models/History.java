@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +32,18 @@ public class History {
 	@Column(name = "history_id")
 	private int id;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate update_date;
+	private String update_date;
 
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
+
+	@ManyToOne
+	@JoinColumn(name = "apply_employee_id")
+	private Apply_Employee apply_employee;
+
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	// @JoinColumn(name = "history_id", nullable = true)
+	// private Apply_Employee apply_employee;
 }

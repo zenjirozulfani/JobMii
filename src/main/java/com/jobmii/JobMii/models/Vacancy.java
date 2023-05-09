@@ -1,6 +1,7 @@
 package com.jobmii.JobMii.models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,12 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,14 +58,20 @@ public class Vacancy {
 
 	private boolean isActive;
 
-	@OneToMany(mappedBy = "vacancy", fetch = FetchType.EAGER)
-	Set<Position_Vacancy> positionVacancy;
+	@OneToMany(mappedBy = "vacancy")
+	private Set<PositionVacancy> positionVacancies;
+
+	// @ManyToMany(mappedBy = "vacancies", fetch = FetchType.LAZY)
+	// // @JsonIgnore
+	// private List<Position> positions;
 
 	@ManyToOne
 	@JoinColumn(name = "mitra_id", nullable = false)
 	private Employee mitra;
 
-	@ManyToMany
-	@JoinTable(name = "tb_apply_employee", joinColumns = @JoinColumn(name = "vacancy_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
-	private List<Employee> employees;
+	// @ManyToMany(fetch = FetchType.LAZY)
+	// @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	// @JoinTable(name = "tb_apply_employee", joinColumns = @JoinColumn(name =
+	// "vacancy_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
+	// private List<Employee> employees;
 }

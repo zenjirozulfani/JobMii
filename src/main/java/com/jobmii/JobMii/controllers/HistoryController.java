@@ -11,40 +11,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobmii.JobMii.models.History;
 import com.jobmii.JobMii.models.Vacancy;
+import com.jobmii.JobMii.services.HistoryService;
 import com.jobmii.JobMii.services.VacancyService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/vacancy")
-public class VacancyController {
+@RequestMapping("/history")
+public class HistoryController {
 	@Autowired
-	private VacancyService vacancyService;
+	private HistoryService historyService;
 
 	@GetMapping
-	public List<Vacancy> getAll() {
-		return vacancyService.getAll();
+	public List<History> getAll() {
+		return historyService.getAll();
 	}
 
 	@PostMapping("/create")
-	public Vacancy create(@RequestBody Vacancy vacancy) {
-		return vacancyService.create(vacancy);
+	public History create(@RequestBody History history) {
+		return historyService.create(history);
 	}
 
 	@GetMapping("/{id}")
-	public Vacancy getById(@PathVariable int id) {
-		return vacancyService.getByid(id);
+	public History getById(@PathVariable int id) {
+		return historyService.getByid(id);
 	}
 
 	@PutMapping("/update/{id}")
-	public Vacancy update(@PathVariable Integer id, @RequestBody Vacancy vacancy) {
-		return vacancyService.update(id, vacancy);
+	public History update(@PathVariable Integer id, @RequestBody History history) {
+		return historyService.update(id, history);
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable int id) {
-		vacancyService.delete(id);
+		historyService.delete(id);
 	}
 
 }

@@ -4,12 +4,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-
-import com.jobmii.JobMii.models.key.Position_Vacancy_Key;
-
+import com.jobmii.JobMii.models.key.PositionVacancyKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,17 +18,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_position_vacancy")
-public class Position_Vacancy {
+public class PositionVacancy {
 
 	@EmbeddedId
-	Position_Vacancy_Key id;
+	PositionVacancyKey id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@MapsId("vacancyId")
 	@JoinColumn(name = "vacancy_id")
 	private Vacancy vacancy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@MapsId("positionId")
 	@JoinColumn(name = "position_id")
 	private Position position;

@@ -96,6 +96,7 @@ public class AuthService {
 		roles.add(roleService.getById(1));
 		user.setRoles(roles);
 
+		employee.setStatus(false);
 		employee.setUser(user);
 		user.setEmployee(employee);
 		userRepository.save(user);

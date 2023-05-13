@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 public class PositionVacancyKey implements Serializable {
 
 	@Column(name = "position_id")
-	private Integer positionId;
+	Integer positionId;
 
 	@Column(name = "vacancy_id")
-	private Integer vacancyId;
+	Integer vacancyId;
 }

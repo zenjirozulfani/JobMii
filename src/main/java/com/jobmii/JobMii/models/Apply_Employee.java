@@ -40,7 +40,11 @@ public class Apply_Employee {
 	private Employee employee;
 
 	@ManyToOne
-	@JoinColumn(name = "vacancy_id", nullable = true)
+	@JoinColumn(name = "user_id")
+	private User hr;
+
+	@ManyToOne
+	@JoinColumn(name = "vacancy_id")
 	private Vacancy vacancy;
 
 	@Column(nullable = false)
@@ -49,6 +53,10 @@ public class Apply_Employee {
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
+
+	private String date_test;
+
+	private String location_test;
 
 	// @OneToMany(mappedBy = "history_id")
 	// private List<History> history;

@@ -32,6 +32,7 @@ public class Position {
 	private String name;
 
 	@OneToMany(mappedBy = "position")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Set<PositionVacancy> positionVacancies;
 
 }

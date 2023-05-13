@@ -44,16 +44,18 @@ public class Employee {
 
 	private String cv;
 
-	private String status;
+	private Boolean status;
 
 	private String Description;
 
 	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@PrimaryKeyJoinColumn
 	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "position_id", nullable = true)
+	// @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Position position;
 
 	// @ManyToMany(mappedBy = "employees")

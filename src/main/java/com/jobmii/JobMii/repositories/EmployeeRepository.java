@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+	
+	Employee findByUser_Username(String username);
+	
 	// query
 	@Query(value = "SELECT e.employee_id as employee_id, e.description as description, e.cv as cv, e.email as email, e.name as name, e.phone as phone, e.status as status, e.position_id as position_id "
 			+

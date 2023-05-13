@@ -39,6 +39,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
+				.antMatchers("/").hasAnyAuthority("HR","EMPLOYEE","CLIENT")
 				.antMatchers(HttpMethod.POST, "/login")
 				.permitAll()
 				.antMatchers(HttpMethod.POST, "/register")

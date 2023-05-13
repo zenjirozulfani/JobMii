@@ -1,10 +1,11 @@
 package com.jobmii.JobMii.services;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jobmii.JobMii.models.dto.requests.PositionVacancyRequest;
+import com.jobmii.JobMii.repositories.VacancyRepository;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,29 +22,29 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PositionVacancyService {
 
-	private PositionVacancyRepository positionVacancyRepository;
-
 	private PositionRepository positionRepository;
 
-	// public PositionVacancy create(PositionVacancyKey key, int quota) {
-	// PositionVacancy positionVacancy = new PositionVacancy();
-	// positionVacancy.setId(key);
-	// positionVacancy.setQuota(quota);
-	// // set other properties of positionVacancy
-	// return positionVacancyRepository.save(positionVacancy);
-	// }
+	private VacancyRepository vacancyRepository;
 
-	// public PositionVacancy create(PositionVacancyKey key, int quota, Position
-	// position, Vacancy vacancy) {
-	// PositionVacancy positionVacancy = new PositionVacancy();
-	// positionVacancy.setId(key);
-	// positionVacancy.setPosition(position);
-	// positionVacancy.setVacancy(vacancy);
-	// positionVacancy.setQuota(quota);
-	// return positionVacancyRepository.save(positionVacancy);
-	// }
+	private PositionVacancyRepository positionVacancyRepository;
 
-	public PositionVacancy create(PositionVacancy vacancy) {
-		return positionVacancyRepository.save(vacancy);
+	public PositionVacancy createPositionVacancy(PositionVacancyRequest request) {
+		Position position = positionRepository.findById(request.getPositionId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Position not found with id " + request.getPositionId()));
+
+		Vacancy vacancy = vacancyRepository.findById(request.getVacancyId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Vacancy not found with id " + request.getVacancyId()));
+
+		PositionVacancyKey key = new PositionVacancyKey(position.getId(), vacancy.getId());
+		PositionVacancy positionVacancy = new PositionVacancy(key, vacancy, position, request.getQuota());
+
+		return positionVacancyRepository.save(positionVacancy);
+	}
+
+	public List<PositionVacancy> getAll() {
+		
+		return positionVacancyRepository.findAll();
 	}
 }

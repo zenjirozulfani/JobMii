@@ -8,6 +8,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jobmii.JobMii.models.key.PositionVacancyKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,16 +23,18 @@ import lombok.NoArgsConstructor;
 public class PositionVacancy {
 
 	@EmbeddedId
-	PositionVacancyKey id;
+	PositionVacancyKey positionVacancyKey;
 
 	@ManyToOne
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@MapsId("vacancyId")
-	@JoinColumn(name = "vacancy_id")
+	@JoinColumn(name = "vacancy_id", insertable = false, updatable = false)
 	private Vacancy vacancy;
 
 	@ManyToOne
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@MapsId("positionId")
-	@JoinColumn(name = "position_id")
+	@JoinColumn(name = "position_id", insertable = false, updatable = false)
 	private Position position;
 
 	int quota;

@@ -1,26 +1,20 @@
 package com.jobmii.JobMii.services;
 
-import javax.mail.internet.InternetAddress;
-import java.io.File;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
-import lombok.AllArgsConstructor;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import com.jobmii.JobMii.models.Employee;
 import com.jobmii.JobMii.models.dto.requests.ClientRequest;
 import com.jobmii.JobMii.models.dto.requests.EmployeeRequest;
 import com.jobmii.JobMii.models.dto.responses.MailResponse;
@@ -31,6 +25,7 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -83,11 +78,13 @@ public class EmailService {
 		Map<String, Object> model1 = new HashMap<>();
 
 		model1.put("email_to", employeeRequest.getEmail());
+		model1.put("name", employeeRequest.getName());
 		model1.put("username", employeeRequest.getUsername());
 		model1.put("password", employeeRequest.getPassword());
 		// model1.put("subject", "Akun Baru JobMii");
 		// model1.put("date", formatter.format(date));
-		Template t = config.getTemplate("email-template.ftl");
+		// Template t = config.getTemplate("email-template.ftl");
+		Template t = config.getTemplate("email-regis.ftl");
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model1);
 
 		helper.setTo(employeeRequest.getEmail());
@@ -107,16 +104,71 @@ public class EmailService {
 		Map<String, Object> model1 = new HashMap<>();
 
 		model1.put("email_to", clientRequest.getEmail());
+		// model1.put("name", clientRequest.getName());
 		model1.put("username", clientRequest.getUsername());
 		model1.put("password", clientRequest.getPassword());
 		// model1.put("subject", "Akun Baru JobMii");
 		// model1.put("date", formatter.format(date));
-		Template t = config.getTemplate("email-template.ftl");
+		Template t = config.getTemplate("email-regis.ftl");
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model1);
 
 		helper.setTo(clientRequest.getEmail());
 		helper.setSubject("Registration Account JobMii Success");
 		helper.setText(html, true);
+
+		sender.send(message);
+	}
+
+	public void sendEmailReject(Employee employee) throws MessagingException, TemplateNotFoundException,
+			MalformedTemplateNameException, ParseException, IOException, TemplateException {
+
+		// SimpleMailMessage message = new SimpleMailMessage();
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
+		Map<String, Object> model1 = new HashMap<>();
+
+		model1.put("email_to", employee.getEmail());
+		model1.put("name", employee.getName());
+		// model1.put("password", employee.getPassword());
+		// model1.put("subject", "Akun Baru JobMii");
+		// model1.put("date", formatter.format(date));
+		Template t = config.getTemplate("email-revisi.ftl");
+		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model1);
+
+		helper.setTo(employee.getEmail());
+		helper.setSubject("Revisi CV JobMii");
+		helper.setText(html, true);
+
+		sender.send(message);
+	}
+
+	public void sendEmail(String to, String subject, String date, String location ) 
+			throws MessagingException, TemplateNotFoundException,
+			MalformedTemplateNameException, ParseException, IOException, TemplateException {
+		// SimpleMailMessage message = new SimpleMailMessage();
+
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
+		Map<String, Object> model1 = new HashMap<>();
+
+	
+		model1.put("subject", subject);
+		model1.put("date", date);
+		model1.put("location", location);
+		// model1.put("password", employee.getPassword());
+		// model1.put("subject", "Akun Baru JobMii");
+		// model1.put("date", formatter.format(date));
+		Template t = config.getTemplate("email-interview.ftl");
+		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model1);
+
+		helper.setTo(to);
+		helper.setSubject(subject);
+		helper.setText(html, true);
+
+		// message.setSubject(subject);
+		// message.setText(content);
 
 		sender.send(message);
 	}

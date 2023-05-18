@@ -40,6 +40,14 @@ public class AuthController {
 		emailService.sendEmailClient(clientRequest);
 	}
 
+	@PostMapping("/register-hr")
+	public void createHr(@RequestBody EmployeeRequest employeeRequest) throws MessagingException,
+			TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+
+		authService.createHr(employeeRequest);
+		emailService.sendEmailFix(employeeRequest);
+	}
+
 	@PostMapping("/register-employee")
 	public void createEmployee(@RequestBody EmployeeRequest employeeRequest) throws MessagingException,
 			TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {

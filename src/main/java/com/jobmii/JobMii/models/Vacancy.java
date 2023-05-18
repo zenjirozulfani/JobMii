@@ -36,7 +36,7 @@ public class Vacancy {
 	private String title;
 
 	@Column(nullable = false)
-	private String Address;
+	private String address;
 
 	@Column(nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

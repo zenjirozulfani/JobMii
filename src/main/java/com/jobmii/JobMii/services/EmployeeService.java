@@ -1,27 +1,62 @@
 package com.jobmii.JobMii.services;
 
 import com.jobmii.JobMii.models.Employee;
+import com.jobmii.JobMii.models.User;
+import com.jobmii.JobMii.models.dto.requests.EmployeeRequest;
 import com.jobmii.JobMii.repositories.EmployeeRepository;
+import com.jobmii.JobMii.repositories.UserRepository;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import lombok.AllArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor
 public class EmployeeService {
-
+	private final String UPLOAD_DIR = "D:/MCC/Segmen4/Jobmii-ClientApp/src/main/resources/templates/pdf";
+	private ModelMapper modelMapper;
 	private EmployeeRepository employeeRepository;
-
-	
+	private UserRepository userRepository;
 
 	public List<Employee> getAll() {
 		return employeeRepository.findAll();
 	}
 
+	public int getEmployeeJob() {
+		return employeeRepository.countEmployeeJob();
+	}
+
+	public int getEmployeeNoJob() {
+		return employeeRepository.countEmployeeNoJob();
+	}
+
+	public List<Employee> getForApplyEmployee() {
+		return employeeRepository.tampilApplyEmployee();
+	}
+
 	public List<Employee> getAllEmployee() {
 		return employeeRepository.getAllEmployee();
+	}
+
+	public List<Employee> getAllEmployeeCV() {
+		return employeeRepository.getAllEmployeeCV();
+	}
+
+	public List<Employee> getAllHr() {
+		return employeeRepository.getAllHr();
 	}
 
 	public List<Employee> getAllClient() {
@@ -36,6 +71,12 @@ public class EmployeeService {
 						"Employee not found!!"));
 	}
 
+	public Employee getByUsername() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		return employeeRepository.findByUser_Username(username);
+	}
+
 	public Employee create(Employee employee) {
 		return employeeRepository.save(employee);
 	}
@@ -44,6 +85,33 @@ public class EmployeeService {
 		getById(id); // method getById
 		employee.setId(id);
 		return employeeRepository.save(employee);
+	}
+
+	public Employee updateMapping(Integer id, Employee employee) {
+		getById(id); // method getById
+		employee.setId(id);
+		employee.setStatus(false);
+		return employeeRepository.save(employee);
+	}
+
+	public Employee rejectMapping(Integer id, Employee employee) {
+		getById(id); // method getById
+		employee.setId(id);
+		employee.setStatus(false);
+		return employeeRepository.save(employee);
+	}
+
+	public void updateEmployee(Integer id, EmployeeRequest employeeRequest) {
+		Employee emp = getById(id); // method getById
+		emp.setName(employeeRequest.getName());
+		emp.setPhone(employeeRequest.getPhone());
+		emp.setCv(employeeRequest.getCv());
+		Employee existingUser = employeeRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+
+		modelMapper.map(employeeRequest, existingUser);
+
+		employeeRepository.save(existingUser);
 	}
 
 	public void delete(Integer id) {

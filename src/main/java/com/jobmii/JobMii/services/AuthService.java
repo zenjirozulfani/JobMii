@@ -1,14 +1,17 @@
 package com.jobmii.JobMii.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.jobmii.JobMii.models.Employee;
 import com.jobmii.JobMii.models.Role;
@@ -18,11 +21,6 @@ import com.jobmii.JobMii.models.dto.requests.EmployeeRequest;
 import com.jobmii.JobMii.models.dto.requests.LoginRequest;
 import com.jobmii.JobMii.models.dto.responses.LoginResponse;
 import com.jobmii.JobMii.repositories.UserRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
@@ -77,6 +75,23 @@ public class AuthService {
 		// set Role
 		List<Role> roles = new ArrayList<>();
 		roles.add(roleService.getById(3));
+		user.setRoles(roles);
+
+		employee.setUser(user);
+		user.setEmployee(employee);
+		userRepository.save(user);
+	}
+
+	public void createHr(EmployeeRequest employeeRequest) {
+		Employee employee = modelMapper.map(employeeRequest, Employee.class);
+		User user = modelMapper.map(employeeRequest, User.class);
+
+		// set password
+		user.setPassword(passwordEncoder.encode(employeeRequest.getPassword()));
+
+		// set Role
+		List<Role> roles = new ArrayList<>();
+		roles.add(roleService.getById(2));
 		user.setRoles(roles);
 
 		employee.setUser(user);

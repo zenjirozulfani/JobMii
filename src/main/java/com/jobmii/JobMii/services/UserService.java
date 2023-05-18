@@ -20,6 +20,18 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public int countEmployee() {
+		return userRepository.countUsersByRoleId();
+	}
+
+	public int countEmployeeJob() {
+		return userRepository.countEmployeeJob();
+	}
+
+	public int countClient() {
+		return userRepository.countClientByRoleId();
+	}
+
 	public User getById(Integer id) {
 		return userRepository
 				.findById(id)
@@ -31,7 +43,8 @@ public class UserService {
 	public User update(Integer id, User user) {
 		User userRole = getById(id);
 		user.setId(id);
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		// user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setPassword(user.getPassword());
 		user.setRoles(userRole.getRoles());
 		return userRepository.save(user);
 	}

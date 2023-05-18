@@ -1,6 +1,5 @@
 package com.jobmii.JobMii.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.jobmii.JobMii.models.Position;
 // import com.jobmii.JobMii.models.PositionVacancy;
 import com.jobmii.JobMii.models.Vacancy;
 // import com.jobmii.JobMii.repositories.PositionVacancyRepository;
@@ -22,13 +20,20 @@ public class VacancyService {
 	@Autowired
 	private VacancyRepository vacancyRepository;
 
-	// @Autowired
-	// private PositionVacancyRepository positionVacancyRepository;
-
-	private PositionService positionService;
-
 	public List<Vacancy> getAll() {
 		return vacancyRepository.findAll();
+	}
+
+	public int countVacancy() {
+		return vacancyRepository.countVacancy();
+	}
+
+	public int countMyVacancy(Integer id) {
+		return vacancyRepository.countMyVacancy(id);
+	}
+
+	public List<Vacancy> getMyVacancy(Integer id) {
+		return vacancyRepository.getMyVacancy(id);
 	}
 
 	public Vacancy getByid(Integer id) {

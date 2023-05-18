@@ -44,7 +44,12 @@ public class PositionVacancyService {
 	}
 
 	public List<PositionVacancy> getAll() {
-		
+
 		return positionVacancyRepository.findAll();
+	}
+
+	public List<PositionVacancy> getAllPositionData(Integer id) {
+
+		return positionVacancyRepository.getAllPositionVacancy(id);
 	}
 }

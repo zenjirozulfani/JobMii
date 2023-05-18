@@ -22,6 +22,10 @@ public class HistoryService {
 		return historyRepository.findAll();
 	}
 
+	public List<History> getAllByApplyEmployee(Integer id) {
+		return historyRepository.findByIdApplyEmployee(id);
+	}
+
 	public History getByid(Integer id) {
 		return historyRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found!!"));

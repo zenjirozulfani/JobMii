@@ -11,19 +11,22 @@ import com.jobmii.JobMii.services.PositionVacancyService;
 
 import lombok.AllArgsConstructor;
 
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/position-vacancy")
 public class PositionVacancyController {
 
 	private PositionVacancyService positionVacancyService;
-	
+
 	@GetMapping
 	public List<PositionVacancy> getAll() {
-		return positionVacancyService.getAll();
+	return positionVacancyService.getAll();
 	}
 
+	@GetMapping("/{id}")
+	public List<PositionVacancy> getAllData(@PathVariable int id) {
+		return positionVacancyService.getAllPositionData(id);
+	}
 
 	@PostMapping
 	public ResponseEntity<PositionVacancy> createPositionVacancy(@RequestBody PositionVacancyRequest request) {

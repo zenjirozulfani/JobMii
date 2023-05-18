@@ -27,6 +27,21 @@ public class VacancyController {
 		return vacancyService.getAll();
 	}
 
+	@GetMapping("/my-vacancy/{id}")
+	public List<Vacancy> getAllMyVacancy(@PathVariable int id) {
+		return vacancyService.getMyVacancy(id);
+	}
+
+	@GetMapping("/count-vacancy")
+	public int getVacancy() {
+		return vacancyService.countVacancy();
+	}
+
+	@GetMapping("/count-myvacancy/{id}")
+	public int getMyVacancy(@PathVariable int id) {
+		return vacancyService.countMyVacancy(id);
+	}
+
 	@PostMapping("/create")
 	public Vacancy create(@RequestBody Vacancy vacancy) {
 		return vacancyService.create(vacancy);

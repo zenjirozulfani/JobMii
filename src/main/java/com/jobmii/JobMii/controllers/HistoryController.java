@@ -39,6 +39,11 @@ public class HistoryController {
 		return historyService.getByid(id);
 	}
 
+	@GetMapping("/apply-job/{id}")
+	public List<History> getAllByApplyEmployee(@PathVariable int id) {
+		return historyService.getAllByApplyEmployee(id);
+	}
+
 	@PutMapping("/update/{id}")
 	public History update(@PathVariable Integer id, @RequestBody History history) {
 		return historyService.update(id, history);

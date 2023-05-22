@@ -82,6 +82,12 @@ public class ApplyEmployeeController {
 		applyEmployeeService.update(id, applyEmployee);
 	}
 
+	@PutMapping("/user-role/{id}")
+	public void updateUserRole(
+			@PathVariable Integer id) {
+		applyEmployeeService.updateUserRole(id);
+	}
+
 	@DeleteMapping("/apply-employee/{id}")
 	public void delete(@PathVariable Integer id) {
 		applyEmployeeService.delete(id);

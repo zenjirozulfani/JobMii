@@ -1,27 +1,20 @@
 package com.jobmii.JobMii.services;
 
-import com.jobmii.JobMii.models.Employee;
-import com.jobmii.JobMii.models.User;
-import com.jobmii.JobMii.models.dto.requests.EmployeeRequest;
-import com.jobmii.JobMii.repositories.EmployeeRepository;
-import com.jobmii.JobMii.repositories.UserRepository;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import lombok.AllArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.jobmii.JobMii.models.Employee;
+import com.jobmii.JobMii.models.dto.requests.EmployeeRequest;
+import com.jobmii.JobMii.repositories.EmployeeRepository;
+import com.jobmii.JobMii.repositories.UserRepository;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +26,10 @@ public class EmployeeService {
 
 	public List<Employee> getAll() {
 		return employeeRepository.findAll();
+	}
+
+	public int getEmployee() {
+		return employeeRepository.countEmployee();
 	}
 
 	public int getEmployeeJob() {
@@ -98,6 +95,13 @@ public class EmployeeService {
 		getById(id); // method getById
 		employee.setId(id);
 		employee.setStatus(false);
+		return employeeRepository.save(employee);
+	}
+
+	public Employee acceptMapping(Integer id, Employee employee) {
+		getById(id); // method getById
+		employee.setId(id);
+		employee.setStatus(true);
 		return employeeRepository.save(employee);
 	}
 

@@ -11,6 +11,8 @@ import com.jobmii.JobMii.models.Vacancy;
 
 @Repository
 public interface ApplyEmployeeRepository extends JpaRepository<Apply_Employee, Integer> {
+
+
 	@Query(value = "SELECT * FROM tb_apply_employee WHERE employee_id = ?1", nativeQuery = true)
 	List<Apply_Employee> findByIdEmployee(Integer id);
 
@@ -29,4 +31,9 @@ public interface ApplyEmployeeRepository extends JpaRepository<Apply_Employee, I
 			"JOIN tb_position p ON e.position_id = p.position_id " +
 			"WHERE ae.vacancy_id = ?1 AND ae.status_id = 3", nativeQuery = true)
 	List<Object[]> findEmployeeAccepted(Integer vacancyId);
+
+	// @Query(value = "INSERT INTO tb_user_role (user_id, role_id) VALUES (?1, 1)",
+	// nativeQuery = true)
+	// void updateUserRole (Integer id);
+
 }

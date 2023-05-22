@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.jobmii.JobMii.models.Apply_Employee;
 import com.jobmii.JobMii.models.Employee;
 import com.jobmii.JobMii.models.History;
+import com.jobmii.JobMii.models.Role;
 import com.jobmii.JobMii.models.Status;
 import com.jobmii.JobMii.models.User;
 import com.jobmii.JobMii.models.Vacancy;
@@ -31,6 +32,7 @@ import com.jobmii.JobMii.repositories.ApplyEmployeeRepository;
 import com.jobmii.JobMii.repositories.EmployeeRepository;
 import com.jobmii.JobMii.repositories.HistoryRepository;
 import com.jobmii.JobMii.repositories.UserRepository;
+import com.jobmii.JobMii.repositories.UserRoleRepository;
 import com.jobmii.JobMii.repositories.VacancyRepository;
 
 import freemarker.core.ParseException;
@@ -47,12 +49,19 @@ public class ApplyEmployeeService {
 	private HistoryRepository historyRepository;
 	private ModelMapper modelMapper;
 	private EmployeeRepository employeeRepository;
+	private UserRoleRepository userRoleRepository;
 	private VacancyRepository vacancyRepository;
 	private EmailService emailService;
 	private StatusService statusService;
+	private RoleService roleService;
+	private UserService userService;
 
 	public List<Apply_Employee> getAll() {
 		return applyEmployeeRepository.findAll();
+	}
+
+	public void updateUserRole(Integer id) {
+		userRoleRepository.insertUserRole(id);
 	}
 
 	public Apply_Employee getById(Integer id) {
@@ -137,6 +146,14 @@ public class ApplyEmployeeService {
 		applyEmployee.setId(id);
 		applyEmployee.setApply_date(applyEmployee.getApply_date());
 		applyEmployeeRepository.save(applyEmployee);
+
+		User user = new User();
+		user = userService.getById(applyEmployee.getEmployee().getId());
+
+		List<Role> roles = new ArrayList<>();
+		roles.add(roleService.getById(1));
+		user.setRoles(roles);
+		userRepository.save(user);
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();

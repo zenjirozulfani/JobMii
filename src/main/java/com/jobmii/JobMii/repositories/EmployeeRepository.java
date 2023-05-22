@@ -15,6 +15,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	Employee findByUser_Username(String username);
 
 	// query
+	@Query(value = "SELECT COUNT(employee_id) AS total_users FROM tb_employee WHERE status IS NOT NULL", nativeQuery = true)
+	int countEmployee();
 
 	@Query(value = "SELECT COUNT(employee_id) AS total_users FROM tb_employee WHERE status = 1", nativeQuery = true)
 	int countEmployeeJob();

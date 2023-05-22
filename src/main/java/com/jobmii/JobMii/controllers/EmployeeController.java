@@ -42,6 +42,11 @@ public class EmployeeController {
 		return employeeService.getAll();
 	}
 
+	@GetMapping("/employee-all")
+	public int getAllEmployee() {
+		return employeeService.getEmployee();
+	}
+
 	@GetMapping("/employee-free")
 	public List<Employee> getEmployeeFree() {
 		return employeeService.getForApplyEmployee();
